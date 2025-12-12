@@ -1,0 +1,562 @@
+.admin-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+}
+
+.admin-header {
+  max-width: 1400px;
+  margin: 0 auto 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.admin-header h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.btn-back {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.admin-tabs {
+  max-width: 1400px;
+  margin: 0 auto 30px;
+  display: flex;
+  gap: 10px;
+}
+
+.tab {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.tab-active {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.admin-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.btn-create,
+.btn-refresh {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-create:hover,
+.btn-refresh:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.games-list h2,
+.users-list h2 {
+  color: #667eea;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.game-admin-card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.game-admin-card.inactive {
+  opacity: 0.7;
+  border-color: #ff6b6b;
+}
+
+.game-admin-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-admin-header {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.game-admin-icon {
+  font-size: 3em;
+}
+
+.game-admin-info h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.2em;
+}
+
+.game-admin-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.game-subject,
+.game-difficulty {
+  background: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.85em;
+  text-transform: capitalize;
+}
+
+.game-status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.game-status.active {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.game-status.inactive {
+  background: #f8d7da;
+  color: #dc3545;
+}
+
+.game-admin-description {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 0.95em;
+}
+
+.game-admin-stats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.game-admin-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-toggle,
+.btn-edit,
+.btn-delete {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+
+.btn-activate {
+  background: #28a745;
+  color: white;
+}
+
+.btn-deactivate {
+  background: #ffc107;
+  color: #333;
+}
+
+.btn-edit {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-toggle:hover,
+.btn-edit:hover,
+.btn-delete:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Users Table */
+.users-table {
+  overflow-x: auto;
+}
+
+.users-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.users-table th {
+  background: #f5f5f5;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.users-table tr:hover {
+  background: #f9f9f9;
+}
+
+.role-badge {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role-child {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.role-parent {
+  background: #cce5ff;
+  color: #0066cc;
+}
+
+.role-teacher {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.role-admin {
+  background: #f8d7da;
+  color: #dc3545;
+}
+
+/* Game Form */
+.game-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.game-form {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.game-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.game-form-header h2 {
+  color: #667eea;
+  margin: 0;
+}
+
+.btn-close {
+  background: #dc3545;
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-close:hover {
+  background: #c82333;
+  transform: rotate(90deg);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.tasks-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tasks-header h3 {
+  color: #667eea;
+  margin: 0;
+}
+
+.btn-add-task {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add-task:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.task-item {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid #e0e0e0;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.task-header h4 {
+  color: #667eea;
+  margin: 0;
+}
+
+.btn-remove-task {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-remove-task:hover {
+  background: #c82333;
+}
+
+.option-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.option-input input[type="radio"] {
+  width: auto;
+  cursor: pointer;
+}
+
+.option-input input[type="text"] {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.btn-cancel {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #5a6268;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.no-games,
+.no-tasks {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 1.2em;
+}
+
+.loading {
+  text-align: center;
+  padding: 100px 20px;
+  font-size: 1.5em;
+  color: white;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #c33;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .users-table {
+    font-size: 0.85em;
+  }
+}
+

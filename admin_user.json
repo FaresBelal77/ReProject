@@ -1,0 +1,13 @@
+{
+  "username": "admin",
+  "email": "admin@reproject.com",
+  "password": "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy",
+  "role": "admin",
+  "points": 0,
+  "level": 1,
+  "achievements": [],
+  "preferences": {
+    "theme": "light",
+    "difficulty": "easy"
+  }
+}

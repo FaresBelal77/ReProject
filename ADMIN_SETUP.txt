@@ -1,0 +1,57 @@
+# Admin User Setup Instructions
+
+## Option 1: Use the Script (Recommended)
+
+Run this command in the backend directory:
+```bash
+cd backend
+node scripts/createAdmin.js
+```
+
+This will:
+- Connect to your MongoDB database
+- Check if admin already exists
+- Create an admin user with proper password hashing
+- Display login credentials
+
+**Login Credentials:**
+- Email: `admin@reproject.com`
+- Password: `admin123`
+
+## Option 2: Insert Directly in MongoDB Atlas
+
+If you prefer to insert directly in MongoDB Atlas:
+
+1. Go to MongoDB Atlas
+2. Navigate to your cluster → Browse Collections
+3. Select the `users` collection
+4. Click "Insert Document"
+5. Use this JSON (password is already hashed):
+
+```json
+{
+  "username": "admin",
+  "email": "admin@reproject.com",
+  "password": "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy",
+  "role": "admin",
+  "points": 0,
+  "level": 1,
+  "achievements": [],
+  "preferences": {
+    "theme": "light",
+    "difficulty": "easy"
+  }
+}
+```
+
+**Login Credentials:**
+- Email: `admin@reproject.com`
+- Password: `admin123`
+
+## Important Notes:
+
+- The password hash in the JSON is for the password: `admin123`
+- After login, admin users will be redirected to `/admin` page
+- Regular users will be redirected to `/dashboard`
+- Make sure your backend server is running when using the script
+
