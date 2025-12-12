@@ -9,6 +9,22 @@ exports.startGame = async (req, res) => {
     const { gameId } = req.params;
     const userId = req.userId;
 
+    // Check if user is a child (only children can play games)
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    if (user.role !== 'child') {
+      return res.status(403).json({
+        success: false,
+        message: 'Only children can play games. Parents and teachers can view games but cannot play them.'
+      });
+    }
+
     const game = await Game.findById(gameId);
     if (!game || !game.isActive) {
       return res.status(404).json({
@@ -56,12 +72,30 @@ exports.submitAnswer = async (req, res) => {
   try {
     const { sessionId } = req.params;
     const { taskId, userAnswer, timeSpent } = req.body;
+    const userId = req.userId;
+
+    // Check if user is a child
+    const user = await User.findById(userId);
+    if (!user || user.role !== 'child') {
+      return res.status(403).json({
+        success: false,
+        message: 'Only children can play games'
+      });
+    }
 
     const session = await Session.findById(sessionId).populate('gameId');
     if (!session) {
       return res.status(404).json({
         success: false,
         message: 'Session not found'
+      });
+    }
+
+    // Verify session belongs to user
+    if (session.userId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Unauthorized to submit answer for this session'
       });
     }
 
@@ -153,11 +187,28 @@ exports.endGame = async (req, res) => {
     const { sessionId } = req.params;
     const userId = req.userId;
 
+    // Check if user is a child
+    const user = await User.findById(userId);
+    if (!user || user.role !== 'child') {
+      return res.status(403).json({
+        success: false,
+        message: 'Only children can play games'
+      });
+    }
+
     const session = await Session.findById(sessionId).populate('gameId');
     if (!session) {
       return res.status(404).json({
         success: false,
         message: 'Session not found'
+      });
+    }
+
+    // Verify session belongs to user
+    if (session.userId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Unauthorized to end this session'
       });
     }
 
@@ -177,20 +228,20 @@ exports.endGame = async (req, res) => {
     session.pointsEarned = Math.round(basePoints * (0.5 + scoreMultiplier * 0.5));
 
     // Update user points
-    const user = await User.findById(userId);
-    user.points += session.pointsEarned;
+    const gameUser = await User.findById(userId);
+    gameUser.points += session.pointsEarned;
 
     // Check for level up
-    const newLevel = Math.floor(user.points / 100) + 1;
-    if (newLevel > user.level) {
-      user.level = newLevel;
+    const newLevel = Math.floor(gameUser.points / 100) + 1;
+    if (newLevel > gameUser.level) {
+      gameUser.level = newLevel;
     }
 
     // Check for achievements
     await checkAndAwardAchievements(userId, session);
 
     await session.save();
-    await user.save();
+    await gameUser.save();
 
     res.json({
       success: true,
@@ -204,8 +255,8 @@ exports.endGame = async (req, res) => {
           progress: session.progress
         },
         user: {
-          points: user.points,
-          level: user.level
+          points: gameUser.points,
+          level: gameUser.level
         }
       }
     });

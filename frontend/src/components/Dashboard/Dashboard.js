@@ -91,25 +91,52 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Subjects Section */}
-        <section className="subjects-section">
-          <h2>📖 Learn by Subject</h2>
-          <div className="subjects-grid">
-            {subjects.map((subject) => (
-              <div
-                key={subject}
-                className="subject-card"
-                onClick={() => handleSubjectClick(subject)}
-              >
-                <div className="subject-icon">{subjectIcons[subject]}</div>
-                <div className="subject-name">{subject.charAt(0).toUpperCase() + subject.slice(1)}</div>
-                <div className="subject-count">
-                  {dashboardData.gamesBySubject[subject]?.length || 0} games
+        {/* Subjects Section - Only show to children */}
+        {user?.role === 'child' && (
+          <section className="subjects-section">
+            <h2>📖 Learn by Subject</h2>
+            <div className="subjects-grid">
+              {subjects.map((subject) => (
+                <div
+                  key={subject}
+                  className="subject-card"
+                  onClick={() => handleSubjectClick(subject)}
+                >
+                  <div className="subject-icon">{subjectIcons[subject]}</div>
+                  <div className="subject-name">{subject.charAt(0).toUpperCase() + subject.slice(1)}</div>
+                  <div className="subject-count">
+                    {dashboardData.gamesBySubject[subject]?.length || 0} games
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* View Games Section for Parents/Teachers */}
+        {(user?.role === 'parent' || user?.role === 'teacher') && (
+          <section className="subjects-section">
+            <h2>📖 View Games by Subject</h2>
+            <p style={{ color: '#666', marginBottom: '20px' }}>
+              👁️ You can view games but cannot play them. Only children can play games.
+            </p>
+            <div className="subjects-grid">
+              {subjects.map((subject) => (
+                <div
+                  key={subject}
+                  className="subject-card"
+                  onClick={() => handleSubjectClick(subject)}
+                >
+                  <div className="subject-icon">{subjectIcons[subject]}</div>
+                  <div className="subject-name">{subject.charAt(0).toUpperCase() + subject.slice(1)}</div>
+                  <div className="subject-count">
+                    {dashboardData.gamesBySubject[subject]?.length || 0} games
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Creative Activities */}
         <section className="creative-section">
@@ -156,15 +183,29 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <section className="quick-actions">
-          <button onClick={() => navigate('/games')} className="action-btn">
-            🎮 Browse All Games
-          </button>
-          <button onClick={() => navigate('/achievements')} className="action-btn">
-            🏆 View Achievements
-          </button>
+          {user?.role === 'child' && (
+            <>
+              <button onClick={() => navigate('/games')} className="action-btn">
+                🎮 Browse All Games
+              </button>
+              <button onClick={() => navigate('/achievements')} className="action-btn">
+                🏆 View Achievements
+              </button>
+            </>
+          )}
           {(user?.role === 'parent' || user?.role === 'teacher') && (
-            <button onClick={() => navigate('/monitoring')} className="action-btn">
-              📊 Monitoring Dashboard
+            <>
+              <button onClick={() => navigate('/games')} className="action-btn">
+                👁️ View Games
+              </button>
+              <button onClick={() => navigate('/monitoring')} className="action-btn">
+                📊 Monitoring Dashboard
+              </button>
+            </>
+          )}
+          {(user?.role === 'parent' || user?.role === 'teacher' || user?.role === 'admin') && (
+            <button onClick={() => navigate('/profile')} className="action-btn">
+              👤 My Profile
             </button>
           )}
           {user?.role === 'admin' && (

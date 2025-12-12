@@ -20,11 +20,23 @@ exports.getMonitoringData = async (req, res) => {
     }
 
     // Check permissions
-    const canView = 
-      requester.role === 'admin' ||
-      requester.role === 'teacher' ||
-      (requester.role === 'parent' && targetUser.parentId?.toString() === requester._id.toString()) ||
-      requester._id.toString() === userId;
+    let canView = false;
+    
+    if (requester.role === 'admin' || requester.role === 'teacher') {
+      canView = true; // Admins and teachers can view any user
+    } else if (requester.role === 'parent') {
+      // Parents can only view their own children
+      if (targetUser.role === 'child' && targetUser.parentId?.toString() === requester._id.toString()) {
+        canView = true;
+      } else {
+        return res.status(403).json({
+          success: false,
+          message: 'You can only view progress of your own children'
+        });
+      }
+    } else if (requester._id.toString() === userId) {
+      canView = true; // Users can view their own data
+    }
 
     if (!canView) {
       return res.status(403).json({
@@ -257,10 +269,12 @@ exports.getChildren = async (req, res) => {
 
     let children;
     if (requester.role === 'admin' || requester.role === 'teacher') {
+      // Admins and teachers can see all children
       children = await User.find({ role: 'child' })
         .select('username email age points level lastLogin')
         .populate('parentId', 'username');
     } else if (requester.role === 'parent') {
+      // Parents can only see their own children
       children = await User.find({
         role: 'child',
         parentId: requester._id

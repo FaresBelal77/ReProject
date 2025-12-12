@@ -318,6 +318,93 @@
   color: white;
 }
 
+.game-view-only {
+  text-align: center;
+  color: #ff6b6b;
+  font-weight: 600;
+  margin-top: 10px;
+  padding: 8px;
+  background: #fff3cd;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+.view-only-notice {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.view-only-notice h3 {
+  color: #856404;
+  margin-bottom: 10px;
+}
+
+.view-only-notice p {
+  color: #856404;
+  margin: 0;
+}
+
+.game-preview {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.game-preview h3 {
+  color: #667eea;
+  margin-bottom: 15px;
+}
+
+.preview-question {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-left: 4px solid #667eea;
+}
+
+.preview-question p {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.preview-question ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.preview-question li {
+  padding: 8px;
+  margin: 5px 0;
+  background: #f5f5f5;
+  border-radius: 5px;
+  color: #666;
+}
+
+.preview-question li:has-text("✓") {
+  background: #d4edda;
+  color: #155724;
+  font-weight: 600;
+}
+
+.no-children-notice {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 20px 0;
+  color: #856404;
+}
+
 @media (max-width: 768px) {
   .games-grid {
     grid-template-columns: 1fr;

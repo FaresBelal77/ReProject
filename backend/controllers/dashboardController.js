@@ -30,6 +30,7 @@ exports.getDashboard = async (req, res) => {
       .limit(5);
 
     // Get leaderboard (top 10 users by points)
+    // All users (children, parents, teachers) can see the leaderboard
     const leaderboard = await User.find({ role: 'child' })
       .select('username points level achievements')
       .populate('achievements', 'title icon')

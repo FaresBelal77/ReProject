@@ -11,6 +11,7 @@ import Monitoring from './components/Monitoring/Monitoring';
 import Safety from './components/Safety/Safety';
 import Achievements from './components/Achievements/Achievements';
 import Admin from './components/Admin/Admin';
+import Profile from './components/Profile/Profile';
 import './App.css';
 
 function App() {
@@ -74,6 +75,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Admin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               }
             />

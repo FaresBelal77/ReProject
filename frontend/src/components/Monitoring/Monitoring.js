@@ -11,9 +11,10 @@ const Monitoring = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user?.role === 'parent' || user?.role === 'teacher') {
+    if (user?.role === 'parent' || user?.role === 'teacher' || user?.role === 'admin') {
       loadChildren();
     } else {
+      // Children can view their own monitoring data
       loadMonitoringData(user?._id);
     }
   }, [user]);
@@ -64,7 +65,7 @@ const Monitoring = () => {
     <div className="monitoring-container">
       <div className="monitoring-header">
         <h1>📊 Monitoring Dashboard</h1>
-        {(user?.role === 'parent' || user?.role === 'teacher') && children.length > 0 && (
+        {(user?.role === 'parent' || user?.role === 'teacher' || user?.role === 'admin') && children.length > 0 && (
           <select
             value={selectedChild}
             onChange={(e) => handleChildChange(e.target.value)}
@@ -76,6 +77,11 @@ const Monitoring = () => {
               </option>
             ))}
           </select>
+        )}
+        {user?.role === 'parent' && children.length === 0 && (
+          <div className="no-children-notice">
+            <p>No children linked to your account. Children need to register with your user ID as their parent ID.</p>
+          </div>
         )}
       </div>
 

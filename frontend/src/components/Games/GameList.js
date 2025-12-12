@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { gamesAPI } from '../../services/api';
 import './Games.css';
 
 const GameList = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const subject = searchParams.get('subject');
   const category = searchParams.get('category');
+  
+  // Check if user can play games (only children can play)
+  const canPlayGames = user?.role === 'child';
 
   useEffect(() => {
     loadGames();
@@ -31,7 +36,12 @@ const GameList = () => {
   };
 
   const handleGameClick = (gameId) => {
-    navigate(`/games/${gameId}`);
+    if (canPlayGames) {
+      navigate(`/games/${gameId}`);
+    } else {
+      // Parents and teachers can view game details but not play
+      navigate(`/games/${gameId}/view`);
+    }
   };
 
   if (loading) {
@@ -74,6 +84,9 @@ const GameList = () => {
               <span className="game-points">⭐ {game.pointsReward} pts</span>
             </div>
             <div className="game-time">⏱️ {game.estimatedTime} min</div>
+            {!canPlayGames && (
+              <div className="game-view-only">👁️ View Only (Parents/Teachers cannot play)</div>
+            )}
           </div>
         ))}
       </div>

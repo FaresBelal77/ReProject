@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { gamesAPI } from '../../services/api';
 import './Games.css';
 
 const GamePlay = () => {
   const { gameId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [game, setGame] = useState(null);
   const [session, setSession] = useState(null);
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
@@ -14,6 +16,9 @@ const GamePlay = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [loading, setLoading] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
+  
+  // Check if user can play games (only children can play)
+  const canPlayGames = user?.role === 'child';
 
   useEffect(() => {
     loadGame();
@@ -31,13 +36,23 @@ const GamePlay = () => {
   };
 
   const startGame = async () => {
+    if (!canPlayGames) {
+      alert('Only children can play games. Parents and teachers can view game details but cannot play.');
+      return;
+    }
+    
     try {
       const response = await gamesAPI.startGame(gameId);
       setSession(response.data.data.session);
       setGameStarted(true);
     } catch (error) {
       console.error('Error starting game:', error);
-      alert('Failed to start game. Please try again.');
+      const errorMessage = error.response?.data?.message || 'Failed to start game. Please try again.';
+      alert(errorMessage);
+      if (error.response?.status === 403) {
+        // If forbidden, redirect to dashboard
+        navigate('/dashboard');
+      }
     }
   };
 
@@ -109,12 +124,41 @@ const GamePlay = () => {
               <p>{game.content.instructions}</p>
             </div>
           )}
-          <button onClick={startGame} className="btn-start">
-            🚀 Start Game!
-          </button>
-          <button onClick={() => navigate('/games')} className="btn-back">
-            ← Back to Games
-          </button>
+          {canPlayGames ? (
+            <>
+              <button onClick={startGame} className="btn-start">
+                🚀 Start Game!
+              </button>
+              <button onClick={() => navigate('/games')} className="btn-back">
+                ← Back to Games
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="view-only-notice">
+                <h3>👁️ View Only Mode</h3>
+                <p>Parents and teachers can view game details but cannot play games. Only children can play games.</p>
+              </div>
+              <div className="game-preview">
+                <h3>Game Preview - Questions:</h3>
+                {game.content.tasks?.map((task, index) => (
+                  <div key={index} className="preview-question">
+                    <p><strong>Question {index + 1}:</strong> {task.question}</p>
+                    <ul>
+                      {task.options.map((option, optIndex) => (
+                        <li key={optIndex}>
+                          {option} {optIndex === task.correctAnswer && '✓ (Correct Answer)'}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <button onClick={() => navigate('/games')} className="btn-back">
+                ← Back to Games
+              </button>
+            </>
+          )}
         </div>
       </div>
     );
